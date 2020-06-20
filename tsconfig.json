@@ -11,7 +11,8 @@
         "resolveJsonModule": true,
         "target": "es5",
         "esModuleInterop": true,
-        "removeComments": true
+        "removeComments": true,
+        "typeRoots": ["./node_modules/@types", "./custom_typings"]
     },
     "include": ["./src/"]
 }

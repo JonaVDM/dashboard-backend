@@ -5,11 +5,11 @@
     "main": "dist/app.js",
     "scripts": {
         "start": "cross-env MODE='production' node dist/app",
-        "build": "rimraf dist && tsc -p tsconfig.server.json",
+        "build": "rimraf dist && tsc",
         "watch": "nodemon --ext ts --watch src --exec 'ts-node src'",
         "seed": "ts-node server/database/seeder.ts",
         "lint": "eslint . --ext .ts",
-        "test": "cross-env PORT=9999 DB_NAME=ex_test_db mocha -r tsconfig-paths/register -r ts-node/register tests/**/*.test.ts --no-console"
+        "test": "cross-env PORT=9999 DB_NAME=ex_test_db mocha -r ts-node/register tests/**/*.test.ts --no-console"
     },
     "keywords": [],
     "author": "",

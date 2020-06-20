@@ -1,6 +1,6 @@
 import User from '../models/user';
 import Controller from './controller';
-import { RequestData } from '../typings/request-data';
+import { RequestData } from '../../typings/request-data';
 
 import Role from '../models/role';
 

@@ -10,7 +10,7 @@ import AuthController from '../controller/auth.controller';
 import RolesController from '../controller/roles.controller';
 import ProfileController from '../controller/profile.controller';
 
-import { RequestData } from '../typings/request-data';
+import { RequestData } from '../../typings/request-data';
 
 // import the static messages
 import strings from '../lib/strings';
