@@ -7,7 +7,7 @@
         "start": "cross-env MODE='production' node dist/app",
         "build": "rimraf dist && tsc",
         "watch": "nodemon --ext ts --watch src --exec 'ts-node src'",
-        "seed": "ts-node server/database/seeder.ts",
+        "seed": "ts-node src/seeders",
         "lint": "eslint . --ext .ts",
         "test": "cross-env PORT=9999 DB_NAME=ex_test_db mocha -r ts-node/register tests/**/*.test.ts --no-console"
     },
