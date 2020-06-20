@@ -1,0 +1,45 @@
+import User from '../models/user';
+import log from '../lib/log';
+import { IRole } from '../models/role';
+
+export default async function run(roles: IRole[]): Promise<void> {
+    log('Starting the users seed'.green);
+
+    let admin, normal;
+
+    roles.forEach(role => {
+        switch (role.role) {
+            case 'admin':
+                admin = role._id;
+                break;
+
+            case 'normal':
+                normal = role._id;
+                break;
+        }
+    })
+
+    const users = [
+        {
+            name: 'admin',
+            email: 'admin@mail.com',
+            password: 'password',
+            role: admin,
+        },
+        {
+            name: 'user1',
+            email: 'user1@mail.com',
+            password: 'password',
+            role: normal,
+        },
+        {
+            name: 'user2',
+            email: 'user2@mail.com',
+            password: 'password',
+            role: normal,
+        },
+    ];
+
+    await User.create(users);
+    log('Done with the users seed'.blue);
+}
