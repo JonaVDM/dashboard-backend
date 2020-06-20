@@ -4,8 +4,6 @@ import http from 'http';
 import logger from '../lib/logger';
 import routes from '../routes';
 import path from 'path';
-import csurf from 'csurf';
-import cookies from 'cookie-parser';
 
 // Create the express/http server
 const app = express();
@@ -15,9 +13,6 @@ export const server = http.createServer(app);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../../views'));
 
-//setup cookies/csrf
-app.use(cookies());
-app.use(csurf({cookie: true}));
 
 // Setup the json parser
 app.use(express.json());
