@@ -1,6 +1,6 @@
-import strings from '../../lib/strings';
-import { RequestData } from '../../typings/request-data';
-import { ResponseData } from '../../typings/response-data';
+import strings from '../lib/strings';
+import { RequestData } from '../typings/request-data';
+import { ResponseData } from '../typings/response-data';
 
 export default class Controller {
     protected unauthorized: ResponseData = [{code: 401, error: strings.ERR_UNAUTHORIZED}, 401];

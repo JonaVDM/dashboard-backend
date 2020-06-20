@@ -1,8 +1,8 @@
 import express from 'express';
 import log from '../lib/log';
 import http from 'http';
-import logger from './lib/logger';
-import routes from './routes/router';
+import logger from '../lib/logger';
+import routes from '../routes';
 import path from 'path';
 import csurf from 'csurf';
 import cookies from 'cookie-parser';
@@ -37,7 +37,7 @@ app.use(function (err: any, req: any, res: any, next: any) {
     // handle CSRF token errors here
     res.status(403);
     res.send({'error': 'Invalid CSRF Token'});
-})
+});
 
 export function start(callback?: () => void) {
     if (!process.env.PORT) return

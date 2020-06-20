@@ -1,5 +1,5 @@
 import 'colors';
-import log from '../../lib/log';
+import log from './log';
 
 /**
  * A middleware function that makes a log in the console for all the requests

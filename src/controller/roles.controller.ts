@@ -1,9 +1,9 @@
 import Controller from './controller';
-import Role from '../../models/role';
-import User from '../../models/user';
+import Role from '../models/role';
+import User from '../models/user';
 
-import strings from '../../lib/strings';
-import { RequestData } from '../../typings/request-data';
+import strings from '../lib/strings';
+import { RequestData } from '../typings/request-data';
 
 export default class RolesController extends Controller {
 

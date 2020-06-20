@@ -1,8 +1,8 @@
 import Controller from './controller';
-import User from '../../models/user';
+import User from '../models/user';
 
-import { RequestData } from '../../typings/request-data';
-import { ResponseData } from '../../typings/response-data';
+import { RequestData } from '../typings/request-data';
+import { ResponseData } from '../typings/response-data';
 
 export default class ProfileController extends Controller {
     async all(data: RequestData): Promise<ResponseData> {

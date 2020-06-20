@@ -1,11 +1,11 @@
-import User from '../../models/user';
-import Token from '../../models/token';
-import strings from '../../lib/strings';
+import User from '../models/user';
+import Token from '../models/token';
+import strings from '../lib/strings';
 
 
 import bcript from 'bcrypt';
-import { RequestData } from '../../typings/request-data';
-import { ResponseData } from '../../typings/response-data';
+import { RequestData } from '../typings/request-data';
+import { ResponseData } from '../typings/response-data';
 
 export default class AuthController {
     /**

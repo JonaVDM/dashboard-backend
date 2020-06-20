@@ -1,5 +1,5 @@
-import Token from '../../models/token';
-import { RequestData } from '../../typings/request-data';
+import Token from '../models/token';
+import { RequestData } from '../typings/request-data';
 import Controller from './controller';
 
 export default class TokensController extends Controller {
