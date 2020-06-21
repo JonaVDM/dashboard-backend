@@ -8,7 +8,7 @@ import strings from '../lib/strings';
 // Import all the controllers
 const controllers: Map<string, any> = new Map();
 fs.readdirSync(path.join(__dirname, '../controller')).forEach(function (file) {
-    if (!/\.controller\.ts$/.test(file)) return;
+    if (!/\.controller\.(ts|js)$/.test(file)) return;
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const Controller = require(`../controller/${file}`).default;
 
