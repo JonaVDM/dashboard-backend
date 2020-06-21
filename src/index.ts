@@ -1,7 +1,3 @@
-if (process.env.MODE == 'production') {
-    require('module-alias/register');
-}
-
 import * as server from './http';
 import * as database from './database';
 
