@@ -15,7 +15,7 @@ export default class AuthController {
         const { email, password } = data.body;
 
         if (!email || !password) {
-            return [{ login: false, code: 401, message: 'Missing password or email' }, 401];
+            return [{ message: 'Missing password or email' }, 401];
         }
 
         const user = await User.findOne({ email });
@@ -24,17 +24,17 @@ export default class AuthController {
             try {
                 check = await bcript.compare(password, user.password);
             } catch (e) {
-                return [{ login: false, code: 500, message: 'Something went wrong here, try again later' }, 500];
+                return [{ message: 'Something went wrong here, try again later' }, 500];
             }
         }
 
         if (!check) {
-            return [{ login: false, code: 401, message: 'Invalid Email/Password' }, 401];
+            return [{ message: 'Invalid Email/Password' }, 401];
         }
 
         const token = await user.generateToken(64);
 
-        return [{ login: true, token }];
+        return [{ token }];
     }
 
     /**
