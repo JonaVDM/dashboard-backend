@@ -13,7 +13,6 @@ export const server = http.createServer(app);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../../views'));
 
-
 // Setup the json parser
 app.use(express.json());
 
@@ -21,9 +20,7 @@ app.use(express.json());
 app.use(logger);
 
 // Setup the paths/routes
-app.use(express.static('public'));
-app.use(express.static('dist/public'));
-app.use(routes);
+app.use('/api', routes);
 
 // Custom error handler
 app.use(function (err: any, req: any, res: any, next: any) {
