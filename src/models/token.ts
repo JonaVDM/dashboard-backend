@@ -1,12 +1,15 @@
 import { model, Schema, Document } from 'mongoose';
-
 import { IUser } from './user';
+
+// The amount of time a token may be valid
+const VALID_TIME = 24 * 60 * 60 * 1000;
 
 interface TokenInterface extends Document {
     token: string,
     date: Date,
     user: IUser,
-    generate: (size: number) => Promise<string>
+    generate: (size: number) => Promise<string>,
+    isValid: () => Promise<boolean>,
 }
 
 export interface IToken extends TokenInterface {
@@ -50,6 +53,19 @@ schema.methods.generate = async function (size: number): Promise<string> {
     this.token = token;
 
     return token;
+}
+
+schema.methods.isValid = async function (): Promise<boolean> {
+    const now = new Date();
+
+    if (now.getTime() - this.date.getTime() > VALID_TIME) {
+        await this.delete();
+        return false;
+    }
+
+    await this.update({ now });
+
+    return true;
 }
 
 const Token = model<TokenInterface>('Token', schema);

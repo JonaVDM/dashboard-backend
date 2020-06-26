@@ -21,10 +21,6 @@ const router = Router();
 async function execute(req: any, res: any, next: () => void, controller: string) {
     const check = await controllers.get('auth').auth(req);
 
-    // if (!check.auth) {
-    //     return res.status(401).send({ code: 401, error: check.error });
-    // }
-
     const user = check.user;
 
     const contr = controllers.get(controller.split('.')[0]);

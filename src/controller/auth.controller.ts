@@ -2,7 +2,6 @@ import User from '../models/user';
 import Token from '../models/token';
 import strings from '../lib/strings';
 
-
 import bcript from 'bcrypt';
 import { RequestData } from '../../typings/request-data';
 import { ResponseData } from '../../typings/response-data';
@@ -55,13 +54,12 @@ export default class AuthController {
             return { auth: false, error: strings.ERR_AUTH_INVALLID_TOKEN };
         }
 
-        const date = new Date();
+        const valid = await entry.isValid();
 
-        if (date.getTime() - entry.date.getTime() < 86400000) {
-            entry.update({ date });
+
+        if (valid) {
             return { auth: true, user: entry.user };
         } else {
-            entry.remove();
             return { auth: false, error: strings.ERR_AUTH_EXPIRED_TOKEN };
         }
     }
