@@ -5,7 +5,7 @@ import User from '../src/models/user';
 
 import { expect } from 'chai';
 
-import Controller from '../src/web/controller/profile.controller';
+import Controller from '../src/controller/profile.controller';
 
 describe('Profile', () => {
     let controller: Controller;
@@ -31,7 +31,7 @@ describe('Profile', () => {
         });
 
         it('With normal user (does not have access)', async () => {
-            const user = await getUser('user1');
+            const user = await getUser('user');
 
             const res = await controller.all({ user });
 
@@ -39,16 +39,15 @@ describe('Profile', () => {
 
             expect(res[0].users).to.be.undefined;
             expect(res[0].error).to.be.a('string');
-
         });
     });
 
     describe('Update Profile', () => {
         it('Should update it', async () => {
-            const user = await getUser('user1');
+            const user = await getUser('user');
             const email = 'new@mail.com';
             const res = await controller.edit({ user, body: { email } });
-            const update = await getUser('user1');
+            const update = await getUser('user');
 
             expect(res[1]).to.be.oneOf([200, undefined]);
             expect(res[0].updated).to.equal(true);
@@ -56,10 +55,10 @@ describe('Profile', () => {
         });
 
         it('Should fail to update with a invalid email', async () => {
-            const user = await getUser('user1');
+            const user = await getUser('user');
             const email = 'holdup';
             const res = await controller.edit({ user, body: { email } });
-            const update = await getUser('user1');
+            const update = await getUser('user');
 
             expect(res[1]).to.equal(400);
             expect(res[0].updated).to.equal(false);
@@ -69,7 +68,7 @@ describe('Profile', () => {
 
     describe('Get my data', () => {
         it('Should get it', async () => {
-            const user = await getUser('user1');
+            const user = await getUser('user');
             const res = await controller.me({ user });
 
             expect(res[1]).to.be.oneOf([200, undefined]);
@@ -92,7 +91,7 @@ describe('Profile', () => {
         });
 
         it('Should get my own even with permission', async () => {
-            const user = await getUser('user1');
+            const user = await getUser('user');
             const res = await controller.single({
                 user,
                 params: {
@@ -106,7 +105,7 @@ describe('Profile', () => {
         });
 
         it('Should not get the profile without the discover permission', async () => {
-            const user = await getUser('user1');
+            const user = await getUser('user');
             const res = await controller.single({
                 user,
                 params: {
@@ -124,12 +123,12 @@ describe('Profile', () => {
             const res = await controller.single({
                 user,
                 params: {
-                    name: 'user1'
+                    name: 'user'
                 }
             });
 
             expect(res[1]).to.be.oneOf([200, undefined]);
-            expect(res[0].user.name).to.equal('user1');
+            expect(res[0].user.name).to.equal('user');
             expect(res[0].user.role).to.not.be.undefined;
         });
     })

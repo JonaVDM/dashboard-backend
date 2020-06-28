@@ -8,7 +8,7 @@ export default async function run(roles: IRole[]): Promise<void> {
     let admin, normal;
 
     roles.forEach(role => {
-        switch (role.role) {
+        switch (role.name) {
             case 'admin':
                 admin = role._id;
                 break;
@@ -27,14 +27,8 @@ export default async function run(roles: IRole[]): Promise<void> {
             role: admin,
         },
         {
-            name: 'user1',
-            email: 'user1@mail.com',
-            password: 'password',
-            role: normal,
-        },
-        {
-            name: 'user2',
-            email: 'user2@mail.com',
+            name: 'user',
+            email: 'user@mail.com',
             password: 'password',
             role: normal,
         },

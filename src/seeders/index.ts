@@ -19,12 +19,22 @@ import users from './users';
 
 dotenv.config();
 
-main();
+// Check whether it is called directly from the cli or it is imported
+if (require.main === module) {
+    start();
+}
 
-export default async function main() {
+async function start() {
     // start the connection with the database
     await database.start();
 
+    main();
+
+    // stop the connection with the database
+    database.stop();
+}
+
+export default async function main() {
     // Drop the database
     // Again do not execute the seeder on production
     await mongoose.connection.db.dropDatabase();
@@ -32,7 +42,4 @@ export default async function main() {
     // execute the seeders
     const roleList = await roles();
     await users(roleList);
-
-    // stop the connection with the database
-    database.stop();
 }

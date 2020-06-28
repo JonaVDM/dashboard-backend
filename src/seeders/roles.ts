@@ -6,14 +6,15 @@ export default async function run(): Promise<IRole[]> {
 
     const roles = await Role.create([
         {
-            role: 'admin',
+            name: 'admin',
             permissions: ['admin'],
         },
         {
-            role: 'normal',
+            name: 'normal',
             permissions: ['user.read']
         }
     ]);
+
     log('Done with the roles seed'.blue);
 
     return roles;
