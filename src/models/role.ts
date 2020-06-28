@@ -2,14 +2,14 @@ import { model, Schema, Document } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
 interface RoleInterface extends Document {
-    role: string,
+    name: string,
     permissions: [string]
 }
 
 export type IRole = RoleInterface;
 
 const schema = new Schema({
-    role: {
+    name: {
         type: String,
         required: [true, 'validation.value.missing'],
         unique: true,

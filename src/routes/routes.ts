@@ -53,7 +53,7 @@ const routes: Route[] = [
         controller: 'roles.all',
     },
     {
-        path: '/role/:user',
+        path: '/role/:name',
         controller: 'roles.single',
     },
     {
@@ -62,12 +62,12 @@ const routes: Route[] = [
         method: 'post',
     },
     {
-        path: '/role/:role',
+        path: '/role/:name',
         controller: 'roles.edit',
         method: 'put',
     },
     {
-        path: '/role/:role',
+        path: '/role/:name',
         controller: 'roles.delete',
         method: 'delete',
     },

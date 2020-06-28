@@ -28,7 +28,7 @@ export default class RolesController extends Controller {
             return this.unauthorized;
         }
 
-        const name: string = data.params.role;
+        const { name } = data.params;
 
         const role = await Role.findOne({ role: name });
 
@@ -44,14 +44,14 @@ export default class RolesController extends Controller {
             return this.unauthorized;
         }
 
-        const role: string = data.params.role;
-        const r = await Role.findOne({role});
+        const {name} = data.params;
+        const r = await Role.findOne({name});
         const users = await User.find({ role: r }).populate('role').exec();
         if (users.length > 0) {
             // TODO: move the error to the model
             return [{ 'deleted': false, error: 'role.delete.users' }]
         }
-        const result = await Role.deleteOne({ role });
+        const result = await Role.deleteOne({ name });
 
         return [{ 'deleted': !!result.deletedCount }];
     }
@@ -66,11 +66,11 @@ export default class RolesController extends Controller {
             return this.unauthorized;
         }
 
-        const role = data.params.role;
+        const { name } = data.params;
         const update = data.body;
 
         try {
-            await Role.updateOne({ role }, update, {
+            await Role.updateOne({ name }, update, {
                 runValidators: true,
                 context: 'query'
             });
@@ -81,20 +81,20 @@ export default class RolesController extends Controller {
     }
 
     /**
-    * Create a new role
-    * Requires the roles data in the body
-    */
+     * Create a new role
+     * Requires the roles data in the body
+     */
     public async add(data: RequestData) {
         if (!this.can(data, 'role.create')) {
             return this.unauthorized;
         }
 
-        const role = data.body.role.trim();
+        const name = data.body.name.trim();
         const { permissions } = data.body;
 
         try {
-            await Role.create({ role, permissions });
-            return [{ created: true, role }];
+            await Role.create({ name, permissions });
+            return [{ created: true }];
         } catch (e) {
             return [{ created: false, errors: e.errors }, 422];
         }
