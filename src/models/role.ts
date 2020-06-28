@@ -3,7 +3,7 @@ import uniqueValidator from 'mongoose-unique-validator';
 
 interface RoleInterface extends Document {
     name: string,
-    permissions: string[]
+    permissions?: string[]
 }
 
 export type IRole = RoleInterface;

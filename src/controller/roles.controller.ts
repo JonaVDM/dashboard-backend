@@ -30,7 +30,7 @@ export default class RolesController extends Controller {
 
         const { name } = data.params;
 
-        const role = await Role.findOne({ role: name });
+        const role = await Role.findOne({ name });
 
         return [{ role }];
     }
@@ -49,7 +49,7 @@ export default class RolesController extends Controller {
         const users = await User.find({ role: r }).populate('role').exec();
         if (users.length > 0) {
             // TODO: move the error to the model
-            return [{ 'deleted': false, error: 'role.delete.users' }]
+            return [{ 'deleted': false, error: 'role.delete.users' }, 400]
         }
         const result = await Role.deleteOne({ name });
 
