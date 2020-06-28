@@ -13,7 +13,7 @@ let job: cron.ScheduledTask;
 if (require.main === module) {
     start();
 
-    if (env.MODE == 'development') startCleaner();
+    if (env.MODE !== 'development') startCleaner();
 }
 
 export async function start() {
