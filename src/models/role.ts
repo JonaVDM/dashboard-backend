@@ -1,8 +1,6 @@
 import { model, Schema, Document } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
-import strings from '../lib/strings';
-
 interface RoleInterface extends Document {
     role: string,
     permissions: [string]
@@ -13,14 +11,14 @@ export type IRole = RoleInterface;
 const schema = new Schema({
     role: {
         type: String,
-        required: [true, strings.ERR_MISSING_VALUE],
+        required: [true, 'validation.value.missing'],
         unique: true,
         uniqueCaseInsensitive: true,
         validate: {
             validator(value: string): boolean {
                 return !value.includes(' ')
             },
-            message: strings.ERR_VALUE_NO_SPACE
+            message: 'validation.value.space'
         }
     },
     permissions: {
@@ -28,7 +26,7 @@ const schema = new Schema({
     }
 });
 
-schema.plugin(uniqueValidator, { message: strings.ERR_VALUE_UNIQUE });
+schema.plugin(uniqueValidator, { message: 'validation.value.unique' });
 
 const Role = model<RoleInterface>('Role', schema);
 export default Role;

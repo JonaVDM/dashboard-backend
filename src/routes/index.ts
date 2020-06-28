@@ -3,7 +3,6 @@ import fs from 'fs';
 import path from 'path';
 import routes from './routes';
 import { RequestData } from '../../typings/request-data';
-import strings from '../lib/strings';
 
 // Import all the controllers
 const controllers: Map<string, any> = new Map();
@@ -26,7 +25,7 @@ async function execute(req: any, res: any, next: () => void, controller: string)
     const contr = controllers.get(controller.split('.')[0]);
 
     if (!contr) {
-        return res.status(500).send({ code: 500, error: strings.ERR_NOT_IMPLEMENTED });
+        return res.status(500).send({ code: 500, error: 'api.not.implemented' });
     }
 
     const data: RequestData = {

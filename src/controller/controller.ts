@@ -1,9 +1,8 @@
-import strings from '../lib/strings';
 import { RequestData } from '../../typings/request-data';
 import { ResponseData } from '../../typings/response-data';
 
 export default class Controller {
-    protected unauthorized: ResponseData = [{code: 401, error: strings.ERR_UNAUTHORIZED}, 401];
+    protected unauthorized: ResponseData = [{code: 401, error: 'api.unauthorized'}, 401];
 
     protected can(data: RequestData, ...requirements: string[]): boolean {
         if (!data.user) return false;

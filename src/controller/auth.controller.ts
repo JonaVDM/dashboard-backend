@@ -1,6 +1,5 @@
 import User from '../models/user';
 import Token from '../models/token';
-import strings from '../lib/strings';
 
 import bcript from 'bcrypt';
 import { RequestData } from '../../typings/request-data';
@@ -14,7 +13,7 @@ export default class AuthController {
         const { email, password } = data.body;
 
         if (!email || !password) {
-            return [{ message: 'Missing password or email' }, 401];
+            return [{ message: 'api.auth.missing' }, 400];
         }
 
         const user = await User.findOne({ email });
@@ -23,12 +22,12 @@ export default class AuthController {
             try {
                 check = await bcript.compare(password, user.password);
             } catch (e) {
-                return [{ message: 'Something went wrong here, try again later' }, 500];
+                return [{ message: 'api.something.went.wrong' }, 500];
             }
         }
 
         if (!check) {
-            return [{ message: 'Invalid Email/Password' }, 401];
+            return [{ message: 'api.auth.invalid' }, 401];
         }
 
         const token = await user.generateToken(64);
@@ -43,7 +42,7 @@ export default class AuthController {
         const token = req.params.token || req.get('x-token');
 
         if (!token) {
-            return { auth: false, error: strings.ERR_AUTH_NO_TOKEN };
+            return { auth: false };
         }
 
         const entry = await Token.findOne({ token })
@@ -51,7 +50,7 @@ export default class AuthController {
             .exec();
 
         if (!entry) {
-            return { auth: false, error: strings.ERR_AUTH_INVALLID_TOKEN };
+            return { auth: false };
         }
 
         const valid = await entry.isValid();
@@ -60,7 +59,7 @@ export default class AuthController {
         if (valid) {
             return { auth: true, user: entry.user };
         } else {
-            return { auth: false, error: strings.ERR_AUTH_EXPIRED_TOKEN };
+            return { auth: false };
         }
     }
 
@@ -69,7 +68,7 @@ export default class AuthController {
      */
     public async me(data: RequestData): Promise<ResponseData> {
         if (!data.user) {
-            return [{error: 'not signed in'}, 401];
+            return [{ error: 'api.not.signed.in' }, 401];
         }
         return [{ user: data.user }];
     }

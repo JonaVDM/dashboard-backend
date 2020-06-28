@@ -2,7 +2,6 @@ import Controller from './controller';
 import Role from '../models/role';
 import User from '../models/user';
 
-import strings from '../lib/strings';
 import { RequestData } from '../../typings/request-data';
 
 export default class RolesController extends Controller {
@@ -49,7 +48,8 @@ export default class RolesController extends Controller {
         const r = await Role.findOne({role});
         const users = await User.find({ role: r }).populate('role').exec();
         if (users.length > 0) {
-            return [{ 'deleted': false, error: strings.ERR_ROLE_DELETE_USERS }]
+            // TODO: move the error to the model
+            return [{ 'deleted': false, error: 'role.delete.users' }]
         }
         const result = await Role.deleteOne({ role });
 

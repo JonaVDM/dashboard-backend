@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 
 import Token from './token';
 import {IRole} from './role';
-import strings from '../lib/strings';
 
 const SALT_ROUNDS = 10;
 
@@ -19,19 +18,19 @@ export interface IUser extends Document {
 const schema = new Schema<IUser>({
     name: {
         type: String,
-        required: [true, strings.ERR_MISSING_VALUE],
+        required: [true, 'validation.value.missing'],
         unique: true,
         uniqueCaseInsensitive: true,
         validate: {
             validator(value: string): boolean {
                 return !value.includes(' ');
             },
-            message: strings.ERR_VALUE_NO_SPACE
+            message: 'validation.value.space'
         }
     },
     email: {
         type: String,
-        required: [true, strings.ERR_MISSING_VALUE],
+        required: [true, 'validation.value.missing'],
         unique: true,
         uniqueCaseInsensitive: true,
         validate: {
@@ -40,23 +39,23 @@ const schema = new Schema<IUser>({
                 const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                 return regex.test(email);
             },
-            message: strings.ERR_EMAIL_VALID
+            message: 'validation.email.invalid'
         }
     },
     password: {
         type: String,
-        required: [true, strings.ERR_MISSING_VALUE],
+        required: [true, 'validation.value.missing'],
         validate: {
             validator(value: string): boolean {
                 return value.length >= 6
             },
-            message: strings.ERR_PASSWORD_SHORT
+            message: 'validation.password.short'
         },
     },
     role: {
         type: Schema.Types.ObjectId,
         ref: 'Role',
-        required: [true, strings.ERR_MISSING_VALUE],
+        required: [true, 'validation.value.missing'],
     }
 });
 

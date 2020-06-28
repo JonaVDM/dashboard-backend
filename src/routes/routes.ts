@@ -68,7 +68,7 @@ const routes: Route[] = [
     },
     {
         path: '/role/:role',
-        controller: 'users.delete',
+        controller: 'roles.delete',
         method: 'delete',
     },
 

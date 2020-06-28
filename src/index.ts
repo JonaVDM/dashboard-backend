@@ -2,7 +2,6 @@ import * as server from './http';
 import * as database from './database';
 import cleaner from './database/cleanup';
 import cron from 'node-cron';
-
 import dotenv from 'dotenv';
 import { env } from 'process';
 

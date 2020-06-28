@@ -22,15 +22,6 @@ app.use(logger);
 // Setup the paths/routes
 app.use('/api', routes);
 
-// Custom error handler
-app.use(function (err: any, req: any, res: any, next: any) {
-    if (err.code !== 'EBADCSRFTOKEN') return next(err);
-
-    // handle CSRF token errors here
-    res.status(403);
-    res.send({'error': 'Invalid CSRF Token'});
-});
-
 export function start(callback?: () => void) {
     if (!process.env.PORT) return
     server.listen(process.env.PORT, callback);
