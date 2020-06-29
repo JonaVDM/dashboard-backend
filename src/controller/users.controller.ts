@@ -16,7 +16,7 @@ export default class UsersController extends Controller {
 
         const users = await User
             .find({}, 'name email')
-            .populate('role', 'role')
+            .populate('role', 'name')
             .exec();
 
         return [{ users }];
@@ -33,7 +33,7 @@ export default class UsersController extends Controller {
         const name = data.params.user;
 
         const user = await User.findOne({ name })
-            .populate('role', 'role')
+            .populate('role', 'name')
             .exec();
 
         return [{ user }];

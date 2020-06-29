@@ -63,7 +63,8 @@ schema.methods.isValid = async function (): Promise<boolean> {
         return false;
     }
 
-    await this.update({ now });
+    this.date = now;
+    this.save();
 
     return true;
 }
