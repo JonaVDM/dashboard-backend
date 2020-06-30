@@ -23,7 +23,7 @@ fs.readdirSync(path.join(__dirname, '../middleware')).forEach(function (file) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const middleware = require(`../middleware/${file}`).default;
 
-    middlewareList.set(file.split('.ts')[0], middleware);
+    middlewareList.set(file.split(/.(ts|js)/)[0], middleware);
 });
 
 // The routers

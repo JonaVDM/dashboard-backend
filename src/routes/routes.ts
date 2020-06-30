@@ -2,7 +2,8 @@ import { Route } from '../../typings/route';
 
 // The middleware that needs to apply to all the routes
 export const middleware: string[] = [
-    'auth'
+    'auth',
+    'logger'
 ];
 
 // The routes that the application needs to handle
