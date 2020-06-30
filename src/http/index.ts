@@ -1,7 +1,6 @@
 import express from 'express';
 import log from '../lib/log';
 import http from 'http';
-import logger from '../lib/logger';
 import routes from '../routes';
 import path from 'path';
 
@@ -15,9 +14,6 @@ app.set('views', path.join(__dirname, '../../views'));
 
 // Setup the json parser
 app.use(express.json());
-
-// Use the route logger
-app.use(logger);
 
 // Setup the paths/routes
 app.use('/api', routes);
