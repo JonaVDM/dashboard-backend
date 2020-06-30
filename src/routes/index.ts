@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import fs from 'fs';
 import path from 'path';
-import routes from './routes';
+import routes, {middleware as mainMiddleware} from './routes';
 import { RequestData } from '../../typings/request-data';
+import { Route } from '../../typings/route';
+import { ResponseData } from '../../typings/response-data';
 
 // Import all the controllers
 const controllers: Map<string, any> = new Map();
@@ -14,49 +16,83 @@ fs.readdirSync(path.join(__dirname, '../controller')).forEach(function (file) {
     controllers.set(file.split('.controller')[0], new Controller());
 });
 
+// Import all the middleware
+const middlewareList: Map<string, (arg1: any, arg2: RequestData) => Promise<RequestData>> = new Map();
+const activeMiddleware: ((arg1: any, arg2: RequestData) => Promise<RequestData>)[] = [];
+fs.readdirSync(path.join(__dirname, '../middleware')).forEach(function (file) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const middleware = require(`../middleware/${file}`).default;
+
+    middlewareList.set(file.split('.ts')[0], middleware);
+});
+
 // The routers
 const router = Router();
 
-async function execute(req: any, res: any, next: () => void, controller: string) {
-    const check = await controllers.get('auth').auth(req);
-
-    const user = check.user;
-
-    const contr = controllers.get(controller.split('.')[0]);
-
-    if (!contr) {
-        return res.status(500).send({ code: 500, error: 'api.not.implemented' });
-    }
-
-    const data: RequestData = {
-        user,
+// The executer for routes
+async function execute(req: any, res: any, next: () => void, route: Route) {
+    // Build the basic data
+    let data: RequestData = {
         body: req.body,
         params: req.params
     }
 
-    const result = await contr[controller.split('.')[1]](data);
+    // Get the controller
+    const contr = controllers.get(route.controller.split('.')[0]);
+    if (!contr) {
+        return res.status(500).send({ code: 500, error: 'api.not.implemented' });
+    }
 
+    // Run the middleware functions
+    for (const middleware of activeMiddleware) {
+        data = await(middleware(req, data));
+    }
+
+    // Run the route specified middleware
+    if (route.middleware) {
+        for (const middlewareName of route.middleware) {
+            const middleware = middlewareList.get(middlewareName);
+            data = await (middleware(req, data));
+        }
+    }
+
+    let result: ResponseData;
+
+    try {
+        // Run the controllers
+        result = await contr[route.controller.split('.')[1]](data);
+    } catch (e) {
+        return res.status(500).send({ code: 500, error: 'api.not.implemented' });
+    }
+
+    // Send the data to the client
     res.status(result[1] || 200).send(result[0]);
+}
+
+// Register the middleware that execute on all the routes
+for (const middleware of mainMiddleware) {
+    const middle = middlewareList.get(middleware);
+    if (middle) activeMiddleware.push(middle);
 }
 
 // Register all the routes
 for (const route of routes) {
     switch (route.method) {
         case 'post':
-            router.post(route.path, (req, res, next) => execute(req, res, next, route.controller));
+            router.post(route.path, (req, res, next) => execute(req, res, next, route));
             break;
 
         case 'put':
-            router.put(route.path, (req, res, next) => execute(req, res, next, route.controller));
+            router.put(route.path, (req, res, next) => execute(req, res, next, route));
             break;
 
         case 'delete':
-            router.delete(route.path, (req, res, next) => execute(req, res, next, route.controller));
+            router.delete(route.path, (req, res, next) => execute(req, res, next, route));
             break;
 
         case 'get':
         default:
-            router.get(route.path, (req, res, next) => execute(req, res, next, route.controller));
+            router.get(route.path, (req, res, next) => execute(req, res, next, route));
             break;
     }
 }

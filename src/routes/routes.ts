@@ -1,5 +1,11 @@
 import { Route } from '../../typings/route';
 
+// The middleware that needs to apply to all the routes
+export const middleware: string[] = [
+    'auth'
+];
+
+// The routes that the application needs to handle
 const routes: Route[] = [
     {
         path: '/me',
