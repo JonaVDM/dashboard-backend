@@ -1,5 +1,4 @@
 import User from '../models/user';
-import Token from '../models/token';
 
 import bcript from 'bcrypt';
 import { RequestData } from '../../typings/request-data';
@@ -33,34 +32,6 @@ export default class AuthController {
         const token = await user.generateToken(64);
 
         return [{ token }];
-    }
-
-    /**
-     * The middleware method used for the check on the admin panel
-     */
-    public async auth(req: any) {
-        const token = req.params.token || req.get('x-token');
-
-        if (!token) {
-            return { auth: false };
-        }
-
-        const entry = await Token.findOne({ token })
-            .populate({ path: 'user', populate: 'role' })
-            .exec();
-
-        if (!entry) {
-            return { auth: false };
-        }
-
-        const valid = await entry.isValid();
-
-
-        if (valid) {
-            return { auth: true, user: entry.user };
-        } else {
-            return { auth: false };
-        }
     }
 
     /**

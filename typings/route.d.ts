@@ -1,5 +1,6 @@
 export interface Route {
-    path: string,
-    method?: string,
     controller: string,
+    method?: string,
+    middleware?: string[],
+    path: string,
 }
