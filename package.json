@@ -1,6 +1,6 @@
 {
-    "name": "jona.frame",
-    "version": "0.3.0",
+    "name": "webtemplate-backend",
+    "version": "0.1.0",
     "main": "dist/app.js",
     "scripts": {
         "start": "cross-env MODE='production' node dist/index",
