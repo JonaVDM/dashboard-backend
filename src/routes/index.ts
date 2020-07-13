@@ -30,7 +30,7 @@ fs.readdirSync(path.join(__dirname, '../middleware')).forEach(function (file) {
 const router = Router();
 
 // The executer for routes
-async function execute(req: any, res: any, next: () => void, route: Route) {
+async function execute(req: any, res: any, next: (arg: any) => void, route: Route) {
     // Build the basic data
     let data: RequestData = {
         body: req.body,
@@ -62,7 +62,7 @@ async function execute(req: any, res: any, next: () => void, route: Route) {
         // Run the controllers
         result = await contr[route.controller.split('.')[1]](data);
     } catch (e) {
-        return res.status(500).send({ code: 500, error: 'api.not.implemented' });
+        return next(e);
     }
 
     // Send the data to the client
@@ -99,5 +99,8 @@ for (const route of routes) {
 
 // 404 route
 router.use(controllers.get('api')[404]);
+
+// Error handling
+router.use(controllers.get('api').errors);
 
 export default router;
