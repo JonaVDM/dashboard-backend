@@ -97,13 +97,13 @@ export default class UsersController extends Controller {
         const { name, email, password } = data.body;
         let { role } = data.body;
 
-        role = await Role.findOne({ role });
+        role = await Role.findOne({ name: role });
 
         try {
             const user = await User.create({ name, email, password, role });
-            return [{ created: true, user }];
+            return [{ user }];
         } catch (e) {
-            return [{ created: false, errors: e.errors }, 422];
+            return [{ errors: e.errors }, 422];
         }
     }
 }
