@@ -28,10 +28,10 @@ async function start() {
     // start the connection with the database
     await database.start();
 
-    main();
+    await main();
 
     // stop the connection with the database
-    database.stop();
+    await database.stop();
 }
 
 export default async function main() {

@@ -21,6 +21,12 @@ export default async function run(roles: IRole[]): Promise<void> {
 
     const users = [
         {
+            name: 'dev',
+            email: 'developer@mail.com',
+            password: 'password',
+            role: admin,
+        },
+        {
             name: 'admin',
             email: 'admin@mail.com',
             password: 'password',
