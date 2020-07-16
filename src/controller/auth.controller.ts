@@ -39,7 +39,7 @@ export default class AuthController {
      */
     public async me(data: RequestData): Promise<ResponseData> {
         if (!data.user) {
-            return [{ error: 'api.not.signed.in' }, 401];
+            return [{ message: 'api.not.signed.in' }, 401];
         }
         return [{ user: data.user }];
     }

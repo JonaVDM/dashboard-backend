@@ -6,7 +6,7 @@ import { ResponseData } from '../../typings/response-data';
  * Specify here all the things that need to be available in all the controllers
  */
 export default class Controller {
-    protected unauthorized: ResponseData = [{ error: 'api.unauthorized' }, 401];
+    protected unauthorized: ResponseData = [{ message: 'api.unauthorized' }, 401];
 
     protected can(data: RequestData, ...requirements: string[]): boolean {
         if (!data.user) return false;
