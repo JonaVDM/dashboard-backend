@@ -32,25 +32,25 @@ const routes: Route[] = [
     // Users
     {
         path: '/user',
-        controller: 'users.users'
+        controller: 'users.all'
     },
     {
         path: '/user/:user',
-        controller: 'users.user'
+        controller: 'users.single'
     },
     {
         path: '/user',
-        controller: 'users.addUser',
+        controller: 'users.add',
         method: 'post',
     },
     {
         path: '/user/:user',
-        controller: 'users.editUser',
+        controller: 'users.edit',
         method: 'put',
     },
     {
         path: '/user/:user',
-        controller: 'users.deleteUser',
+        controller: 'users.delete',
         method: 'delete',
     },
 

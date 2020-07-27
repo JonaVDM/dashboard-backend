@@ -9,7 +9,7 @@ export default class UsersController extends Controller {
     /**
      * Get a list with all the users
      */
-    public async users(data: RequestData) {
+    public async all(data: RequestData) {
         if (!this.can(data, 'user.read')) {
             return this.unauthorized;
         }
@@ -25,7 +25,7 @@ export default class UsersController extends Controller {
     /**
      * Get a single user
      */
-    public async user(data: RequestData) {
+    public async single(data: RequestData) {
         if (!this.can(data, 'user.read')) {
             return this.unauthorized;
         }
@@ -43,7 +43,7 @@ export default class UsersController extends Controller {
      * Delete a user
      * Requires the username in the request url under user
      */
-    public async deleteUser(data: RequestData) {
+    public async delete(data: RequestData) {
         if (!this.can(data, 'user.delete')) {
             return this.unauthorized;
         }
@@ -60,7 +60,7 @@ export default class UsersController extends Controller {
      * Requires the username in the request under user
      * Expects the users new data in the body
      */
-    public async editUser(data: RequestData) {
+    public async edit(data: RequestData) {
         if (!this.can(data, 'user.update')) {
             return this.unauthorized;
         }
@@ -89,7 +89,7 @@ export default class UsersController extends Controller {
     * Create a new user
     * Requires the users data in the body
     */
-    public async addUser(data: RequestData) {
+    public async add(data: RequestData) {
         if (!this.can(data, 'user.create')) {
             return this.unauthorized;
         }
