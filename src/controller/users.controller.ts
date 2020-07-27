@@ -80,7 +80,6 @@ export default class UsersController extends Controller {
 
             return [{ updated: true }];
         } catch (e) {
-            console.log(e);
             return [{ updated: false, errors: e.errors }, 422];
         }
     }
@@ -103,7 +102,11 @@ export default class UsersController extends Controller {
             const user = await User.create({ name, email, password, role });
             return [{ user }];
         } catch (e) {
-            return [{ errors: e.errors }, 422];
+            const messages: { key: string, message: string }[] = [];
+            Object.entries(e.errors).forEach(([key, value]: any) => {
+                messages.push({ key, message: value.properties.message });
+            });
+            return [{ messages }, 422];
         }
     }
 }
